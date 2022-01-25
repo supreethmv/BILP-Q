@@ -35,8 +35,25 @@ import re
 import time
 import random
 import itertools
+import json
+import os
+
+import pickle
+import json
 
 from qiskit.algorithms.optimizers import COBYLA
+
+################### ########
+#Different distributions data generator functions
+
+
+def create_dir(path):
+    if not os.path.exists(path):
+        print('The directory', path, 'does not exist and will be created')
+        os.makedirs(path)
+    else:
+        print('The directory', path, ' already exists')
+
 
 
 #################################### SOLVER
@@ -182,7 +199,7 @@ def get_ordered_solution(dictionary):
 
 def results_from_QAOA(result):
     # result = qaoa_result
-    solution = get_ordered_solution(result.variables_dict)
+    solution = result.x #get_ordered_solution(result.variables_dict)
     fval = result.fval
     time = result.min_eigen_solver_result.optimizer_time
     
@@ -227,20 +244,34 @@ def results_from_dwave(sample_set, exact=False):
         
         time = sample_set.info['timing']['qpu_sampling_time']
 
-        rank = occurences.index(occ_min_fval)
+        rank = occurences.index(occ_min_fval)+1
         prob = occ_min_fval / sum(df.num_occurrences)
     else:
-        rank = 0
+        rank = 1
         prob = 1
         time = 1
 
     return solution, fval, prob, rank, time
 
 
+def ranking_results_QAOA(qaoa_result, exact_solution=None):
 
+    df=pd.DataFrame(columns = ['solution', 'fval', 'prob'])
 
+    for sample in qaoa_result.samples:
+        df = df.append(pd.Series([sample.x, sample.fval, sample.probability], index = df.columns), ignore_index=True)
+    df = df.sort_values(by=["prob"], ascending=False).reset_index()
+    df['rank_prob'] = df.index+1
 
-
+    df = df.sort_values(by=["fval"], ascending=True).reset_index()
+    df['rank_fval'] = df.index+1
+    df = df.drop(['level_0', 'index'], axis=1)
+    for index, row in df.iterrows():
+        if list(row["solution"])==exact_solution:
+            data_solution = row
+            return df, data_solution
+        else:
+            return df, pd.Series()
 
 def QAOA_optimization(linear, quadratic, n_init=10, p_list=np.arange(1,10), info=''):
 
@@ -278,7 +309,7 @@ def QAOA_optimization(linear, quadratic, n_init=10, p_list=np.arange(1,10), info
         it, min_fval = 0, 0
         for init in grid_init:
             it = it + 1
-            # print(it)
+            print('...', it, '...')
             qaoa_mes = QAOA(optimizer=optimizer, reps=p,
                             quantum_instance=backend, initial_point=init)
 
@@ -296,5 +327,131 @@ def QAOA_optimization(linear, quadratic, n_init=10, p_list=np.arange(1,10), info
                 final_qaoa_result = qaoa_result
                 
                 time = final_qaoa_result.min_eigen_solver_result.optimizer_time
-
+                
     return final_qaoa_result, optimal_p, optimal_init, time
+
+# def QAOA_optimization(linear, quadratic, n_init=10, p_list=np.arange(1,10), solution=None, info='',
+#                       param_log={'root_folder':'QAOA_metadata', 'distribution':None, 'n_agents':None}):
+
+    
+#     backend = BasicAer.get_backend('qasm_simulator')
+    
+#     # IBMQ.load_account()
+#     # provider = IBMQ.get_provider(hub='ibm-q')
+#     # provider.backends()
+#     # backend = provider.get_backend('ibmq_qasm_simulator')
+    
+#     optimizer = COBYLA(maxiter=100, rhobeg=2, tol=1.5)  # , disp=True)
+
+#     qubo = create_QUBO(linear, quadratic)
+
+#     op, offset = qubo.to_ising()
+#     qp = QuadraticProgram()
+#     qp.from_ising(op, offset, linear=True)
+
+    
+#     ### Initialisation solution
+#     qaoa_mes = QAOA(optimizer=optimizer, reps=1, quantum_instance=backend, initial_point=[0.,0.])
+#     qaoa = MinimumEigenOptimizer(qaoa_mes)  # using QAOA
+#     final_qaoa_result = qaoa.solve(qubo)
+    
+#     optimal_p = 1
+#     optimal_init = [0.,0.]
+#     time = final_qaoa_result.min_eigen_solver_result.optimizer_time
+#     min_sol, min_fval, min_prob, min_rank, _ = results_from_QAOA(final_qaoa_result)
+    
+#     best_solution, best_fval, best_prob, best_rank, _ = results_from_QAOA(final_qaoa_result)
+#     best_qaoa_result = final_qaoa_result
+#     best_p, best_init, best_time = optimal_p, optimal_init, time
+#     ###############################################################
+    
+#     for p in p_list:
+#         grid_init = [np.random.normal(1, 1, p * 2) for i in range(n_init)]
+
+#         for init in grid_init:
+
+#             qaoa_mes = QAOA(optimizer=optimizer, reps=p,
+#                             quantum_instance=backend, initial_point=init)
+
+#             qaoa = MinimumEigenOptimizer(qaoa_mes)  # using QAOA
+#             qaoa_result = qaoa.solve(qubo)
+                            
+            
+#             _, fval, _, rank, _ = results_from_QAOA(qaoa_result)
+
+#             if (min_fval>fval and min_rank>rank ):
+#                 min_fval = fval
+#                 min_rank = rank
+
+#                 optimal_init = list(init)
+#                 final_qaoa_result = qaoa_result
+#                 time = final_qaoa_result.min_eigen_solver_result.optimizer_time
+                        
+        
+#         #### Save results
+#         path = os.path.join(param_log['root_folder'],param_log['distribution'],'n_'+ param_log['n_agents'], 'p_'+ str(p))
+#         create_dir(path)
+            
+#         df, data_solution = ranking_results_QAOA(final_qaoa_result, solution)
+#         df.to_csv(os.path.join(path, 'data.csv'), index=False)
+            
+   
+#         with open(os.path.join(path, 'metadata.txt'), "w") as output:
+#             output.write(f'p: {p} \n')
+#             output.write(f'init: {optimal_init} \n')
+#             output.write(f'best_solution: {final_qaoa_result.x} \n')
+#             output.write(f'min_fval: {min_fval} \n')
+#             output.write(f'min_rank: {min_rank} \n')
+#             output.write(f'time: {time} \n')
+                
+#             output.write('\n --- best solution metadata --- \n')
+                
+#             for i, row in data_solution.iteritems():
+#                 output.write(f'{i}: {row} \n')
+#             output.close()
+    
+#         # print(min_fval, best_fval, '-----', min_rank , best_rank)
+#         if (min_fval < best_fval and min_rank < best_rank):
+            
+#             best_fval = min_fval
+#             best_rank = min_rank
+
+#             best_p = p
+#             best_init = optimal_init
+            
+#             best_qaoa_result = final_qaoa_result
+#             best_time = best_qaoa_result.min_eigen_solver_result.optimizer_time
+#             best_solution = best_qaoa_result.x
+            
+#         min_fval=10**5
+
+#     path = os.path.join(param_log['root_folder'],param_log['distribution'],'n_'+ param_log['n_agents'])
+        
+#     df, data_solution = ranking_results_QAOA(best_qaoa_result, solution)
+#     df.to_csv(os.path.join(path, 'data.csv'), index=False)
+
+#     with open(os.path.join(path, 'metadata.txt'), "w") as output:
+#         output.write(f'p:    {best_p}    \n')
+#         output.write(f'init: {best_init} \n')
+#         output.write(f'best_solution: {best_solution} \n')
+#         output.write(f'fval: {best_fval} \n')
+#         output.write(f'rank: {best_rank} \n')
+#         output.write(f'time: {best_time} \n')
+        
+#         output.write('\n --- best solution metadata --- \n')
+
+#         for i, row in data_solution.iteritems():
+#             output.write(f'{i}: {row} \n')
+#         output.close()
+            
+            
+#     return best_qaoa_result, best_p, best_init, time
+
+
+
+
+
+
+
+
+

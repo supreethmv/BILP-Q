@@ -25,7 +25,7 @@ import itertools
 # import matplotlib.pyplot as plt
 from collections import Counter
 
-
+from Utils import *
 
 import math
 import numpy as np
@@ -36,8 +36,19 @@ import time
 import random
 import itertools
 
+import collections
+import os
 ################### ########
 #Different distributions data generator functions
+
+
+def create_dir(path):
+    if not os.path.exists(path):
+        print('The directory', path, 'does not exist and will be created')
+        os.makedirs(path)
+    else:
+        print('The directory', path, ' already exists')
+
 
 
 def plot_energies(results, title=None):

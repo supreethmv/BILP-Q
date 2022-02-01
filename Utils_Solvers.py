@@ -47,12 +47,15 @@ from qiskit.algorithms.optimizers import COBYLA
 #Different distributions data generator functions
 
 
-def create_dir(path):
+def create_dir(path, log=False):
     if not os.path.exists(path):
-        print('The directory', path, 'does not exist and will be created')
+        if log:
+            print('The directory', path, 'does not exist and will be created')
         os.makedirs(path)
     else:
-        print('The directory', path, ' already exists')
+        if log:
+            print('The directory', path, ' already exists')
+
 
 
 
@@ -105,6 +108,26 @@ def solve_QUBO(linear, quadratic, algo, p=1):
   return result
 
 ###############################################
+
+def natural_keys(text):
+  """
+  alist.sort(key=natural_keys) sorts in human order
+  http://nedbatchelder.com/blog/200712/human_sorting.ht
+  For example: Built-in function ['x_8','x_10','x_1'].sort() will sort as ['x_1', 'x_10', 'x_8']
+  But using natural_keys as callback function for sort() will sort as ['x_1','x_8','x_10']
+  """
+  return [ atoi(c) for c in re.split(r'(\d+)', text) ]
+
+
+def atoi(text):
+  """
+  Function returns the corresponding value of a numerical string as integer datatype
+  """
+  return int(text) if text.isdigit() else text
+
+
+
+
 
 
 
@@ -164,9 +187,13 @@ def from_bin_to_var(x, dictionary):
 def create_QUBO(linear_dict, quadratic_dict):    
     # create a QUBO
     qubo = QuadraticProgram()
+    
+    keys = list(linear_dict.keys())
+    keys.sort(key=natural_keys)
+    
+    for key in keys:
+        qubo.binary_var(key) 
 
-    for key in linear_dict.keys():
-        qubo.binary_var(key)
 
     qubo.minimize(linear=linear_dict, quadratic=quadratic_dict)
     return qubo
@@ -229,11 +256,14 @@ def results_from_dwave(sample_set, exact=False):
         if 'x_' in col:
             cols.append(col)
 
+    cols.sort(key=natural_keys)
+    
     solution = []
 
     for col in cols:
         solution.append(row_min.iloc[0][col])
-
+    
+    
     fval = row_min.energy.iloc[0]
 
     if not exact:
@@ -242,7 +272,7 @@ def results_from_dwave(sample_set, exact=False):
 
         occurences = sorted(occurences, reverse=True)
         
-        time = sample_set.info['timing']['qpu_sampling_time']
+        time = sample_set.info['timing']['qpu_sampling_time']/1000
 
         rank = occurences.index(occ_min_fval)+1
         prob = occ_min_fval / sum(df.num_occurrences)
@@ -305,11 +335,11 @@ def QAOA_optimization(linear, quadratic, n_init=10, p_list=np.arange(1,10), info
 
     for p in p_list:
         grid_init = [np.random.normal(1, 1, p * 2) for i in range(n_init)]
-
+        # print('p = ', p)
         it, min_fval = 0, 0
         for init in grid_init:
             it = it + 1
-            print('...', it, '...')
+            
             qaoa_mes = QAOA(optimizer=optimizer, reps=p,
                             quantum_instance=backend, initial_point=init)
 

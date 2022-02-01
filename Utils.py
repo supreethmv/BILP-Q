@@ -38,16 +38,22 @@ import itertools
 
 import collections
 import os
+
+import time
+
+
 ################### ########
 #Different distributions data generator functions
 
 
-def create_dir(path):
+def create_dir(path, log=False):
     if not os.path.exists(path):
-        print('The directory', path, 'does not exist and will be created')
+        if log:
+            print('The directory', path, 'does not exist and will be created')
         os.makedirs(path)
     else:
-        print('The directory', path, ' already exists')
+        if log:
+            print('The directory', path, ' already exists')
 
 
 

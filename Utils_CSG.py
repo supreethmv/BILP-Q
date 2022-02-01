@@ -242,15 +242,15 @@ def decode(solution,coalition_values):
 
 
 
-def get_linear_quads(distribution,n):
-  """
-  wrapper function to fetch the linear and quadratic terms for a given distribution and number of agents
-  """
-  coalition_values = generate_problem_instance(distribution, n)
-  c,S,b = convert_to_BILP(coalition_values)
-  qubo_penalty =-50                                                 #lambda is a negative constant
-  linear,quadratic = get_QUBO_coeffs(c,S,b,qubo_penalty)
-  return coalition_values,linear,quadratic
+def get_linear_quads(distribution,n, qubo_penalty = 50):
+    """
+    wrapper function to fetch the linear and quadratic terms for a given distribution and number of agents
+    """
+    coalition_values = generate_problem_instance(distribution, n)
+    c,S,b = convert_to_BILP(coalition_values)
+    qubo_penalty = qubo_penalty*-1                                                #lambda is a negative constant
+    linear,quadratic = get_QUBO_coeffs(c,S,b,qubo_penalty)
+    return coalition_values,linear,quadratic
 
 
 

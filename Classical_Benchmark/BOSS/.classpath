@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="packages"/>
+	<classpathentry exported="true" kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry exported="true" kind="con" path="org.eclipse.jdt.USER_LIBRARY/CPLEX"/>
+	<classpathentry exported="true" kind="con" path="org.eclipse.jdt.USER_LIBRARY/GLPK"/>
+	<classpathentry exported="true" kind="lib" path="commons-math-2.2.jar"/>
+	<classpathentry kind="lib" path="D:/Dropbox/Java/eclipse workspace/SetPartitioning/commons-math-2.2-javadoc.jar"/>
+	<classpathentry kind="output" path="packages"/>
+</classpath>

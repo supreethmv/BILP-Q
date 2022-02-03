@@ -49,9 +49,9 @@ def running_QAOA(linear, quadratic, exact_solution, colnames,
 
 def run_all(distributions, n_agents, root_folder, penalty=1000, dwave_runs = 1000,
             create_file = True, seed=12345,
-            QAOA=True, dwave=True, exact=True, classical_BILP=True):
+            QAOA=True, dwave=True, exact=True, classical_BILP=True, folder='__'):
 
-    root_folder=os.path.join(root_folder, f'{seed}')
+    root_folder=os.path.join(root_folder, f'{seed}', folder)
     create_dir(root_folder)
 
     colnames = ["distribution", "n_agents", "solution", "p", "fval",
@@ -174,9 +174,9 @@ if __name__=="__main__":
 
     # Running the Quantum Annealing (Dwave) solution for all distributions, from 2 to 7 agents
     n_agents = [2,3,4,5,6,7]
-    root_folder = os.path.join(root, 'QA_2_7')
+    root_folder = os.path.join(root)
     run_all(distributions, n_agents, root_folder, penalty, dwave_runs=10000,
-            create_file=False, seed=seed, QAOA=False, dwave=True, exact=False, classical_BILP=False)
+            create_file=False, seed=seed, QAOA=False, dwave=True, exact=False, classical_BILP=False, folder = 'QA_2_7')
     # custom runs for dwave --> 10000
 
 

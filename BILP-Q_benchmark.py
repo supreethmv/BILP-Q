@@ -33,7 +33,7 @@ def running_dwave_exact(linear, quadratic, exact_solution, colnames,
 
 
 def running_QAOA(linear, quadratic, exact_solution, colnames,
-                 params={'distr':'', 'n':0}, n_init=10, p_list=np.arange(10,20)):
+                 params={'distr':'', 'n':0}, n_init=20, p_list=np.arange(1,20)):
 
     print(f'running qaoa  -  {params["distr"]}  -  {params["n"]}')
 
@@ -42,12 +42,12 @@ def running_QAOA(linear, quadratic, exact_solution, colnames,
     flag = sum(exact_solution == solution)==len(solution)
     print(exact_solution, '\n', solution)
     row = pd.Series([params['distr'], params['n'], solution, p, fval, prob,
-                     rank, time_run, 'QAOA', flag, None], index = colnames)
+                     rank+1, time_run, 'QAOA', flag, None], index = colnames)
     return row, qaoa_result, p, init
 
 
 
-def run_all(distributions, n_agents, root_folder, penalty=1000, dwave_runs = 1000,
+def run_all(distributions, n_agents, root_folder, penalty=None, dwave_runs = 1000,
             create_file = True, seed=12345,
             QAOA=True, dwave=True, exact=True, classical_BILP=True, folder='__'):
 
@@ -72,16 +72,16 @@ def run_all(distributions, n_agents, root_folder, penalty=1000, dwave_runs = 100
         distr = distribution.__name__
 
         # Create file
-        path_distr = os.path.join(root_folder, distr)
-        create_dir(path_distr)
+        create_dir(os.path.join(root_folder, distr))
+        path_distr = os.path.join(root_folder, distr, 'distr_results.csv')
 
         if create_file:
             df_distribution = pd.DataFrame(columns=colnames)
-            df_distribution.to_csv(os.path.join(path_distr, 'distr_results.csv'), index=False)
+            df_distribution.to_csv(path_distr, index=False)
 
         for n in n_agents:
 
-            if n>3:
+            if penalty is None:
                 penalty=10**(n+1)
 
             path = os.path.join(root_folder, distr, 'n_' + str(n))
@@ -111,7 +111,7 @@ def run_all(distributions, n_agents, root_folder, penalty=1000, dwave_runs = 100
                 row = pd.DataFrame(row).transpose()
 
                 row.to_csv(os.path.join(path, dwave_file), mode='a', index=False, header=False)
-                row.to_csv(os.path.join(path_distr, 'distr_results.csv'), mode='a', index=False, header=False)
+                row.to_csv(path_distr, mode='a', index=False, header=False)
                 row.to_csv(path_all, mode='a', index=False, header=False)
 
                 sample_set.to_pandas_dataframe().to_csv(os.path.join(path, 'metadata', 'dwave_distr.csv'), index=False)
@@ -124,7 +124,7 @@ def run_all(distributions, n_agents, root_folder, penalty=1000, dwave_runs = 100
                 row = pd.DataFrame(row).transpose()
 
                 row.to_csv(os.path.join(path, exact_dwave), mode='a', index=False, header=False)
-                row.to_csv(os.path.join(path_distr, 'distr_results.csv'), mode='a', index=False, header=False)
+                row.to_csv(path_distr, mode='a', index=False, header=False)
                 row.to_csv(path_all, mode='a', index=False, header=False)
 
                 sample_set.to_pandas_dataframe().to_csv(os.path.join(path, 'metadata', 'exact_dwave_distr.csv'), index=False)
@@ -138,7 +138,7 @@ def run_all(distributions, n_agents, root_folder, penalty=1000, dwave_runs = 100
                 row = pd.DataFrame(row).transpose()
 
                 row.to_csv(os.path.join(path, qaoa_file), mode='a', index=False, header=False)
-                row.to_csv(os.path.join(path_distr, 'distr_results.csv'), mode='a', index=False, header=False)
+                row.to_csv(path_distr, mode='a', index=False, header=False)
                 row.to_csv(path_all, mode='a', index=False, header=False)
                 # ----------------------------------------------------------------------- #
 
@@ -165,7 +165,7 @@ if __name__=="__main__":
                      Weighted_random_with_chisquare, F_distribution, Laplace_or_double_exponential]
     seed = 12
 
-    penalty = 1000
+    penalty = None
     # with more than 3 agents (n>3) the penalty parameter is updated as 10**n
 
     root = 'output'
@@ -173,18 +173,17 @@ if __name__=="__main__":
 
 
     # Running the Quantum Annealing (Dwave) solution for all distributions, from 2 to 7 agents
-    n_agents = [2,3,4,5,6,7]
-    root_folder = os.path.join(root)
-    run_all(distributions, n_agents, root_folder, penalty, dwave_runs=10000,
-            create_file=False, seed=seed, QAOA=False, dwave=True, exact=False, classical_BILP=False, folder = 'QA_2_7')
+    n_agents = [2,3,4,6,7]
+    # n_agents = [5]
+    run_all(distributions, n_agents, root, penalty, dwave_runs=10000,
+            create_file=False, seed=seed, QAOA=False, dwave=True, exact=False, classical_BILP=False, folder='QA_2_7')
     # custom runs for dwave --> 10000
 
 
-    # Running the experiments for all distributions, with 2 and 3 agents
-    n_agents = [2,3]
-    root_folder = os.path.join(root, 'QA_QAOA_23')
-    run_all(distributions, n_agents, root_folder, penalty,
-            create_file=True, seed=seed, QAOA=True, dwave=True, exact=True, classical_BILP=True)
+    # # Running the experiments for all distributions, with 2 and 3 agents
+    # n_agents = [2,3]
+    # run_all(distributions, n_agents, root, penalty,
+    #         create_file=True, seed=seed, QAOA=True, dwave=True, exact=True, classical_BILP=True, folder='all_23')
 
     # Running the experiments for all distributions with QAOA for 4 agents
     # n_agents = [4]

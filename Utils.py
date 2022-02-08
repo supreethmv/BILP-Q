@@ -25,7 +25,6 @@ import itertools
 # import matplotlib.pyplot as plt
 from collections import Counter
 
-from Utils import *
 
 import math
 import numpy as np
@@ -56,25 +55,3 @@ def create_dir(path, log=False):
             print('The directory', path, ' already exists')
 
 
-
-def plot_energies(results, title=None):
-    energies = results.data_vectors['energy'].astype(int)
-    occurrences = results.data_vectors['num_occurrences']
-    counts = Counter(energies)
-    total = sum(occurrences)
-    counts = {}
-    for index, energy in enumerate(energies):
-        if energy in counts.keys():
-            counts[energy] += occurrences[index]
-        else:
-            counts[energy] = occurrences[index]
-    for key in counts:
-        counts[key] /= total
-    df = pd.DataFrame.from_dict(counts, orient='index').sort_index()
-    df.plot(kind='bar', legend=None)
-
-    plt.xlabel('Energy')
-    plt.ylabel('Probabilities')
-    plt.title(str(title))
-    plt.show()
-    print("minimum energy:", min(energies))

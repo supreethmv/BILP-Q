@@ -11,7 +11,7 @@ def running_dwave(linear, quadratic, exact_solution, colnames,
     solution, fval, prob, rank, time_run = results_from_dwave(sample_set_dwave)
     flag = exact_solution == solution
     row = pd.Series([params['distr'], params['n'], solution, None, fval, prob,
-                     rank, time_run, 'dwave', flag, None], index=colnames)
+                     rank, time_run, 'dwave', flag, None, None], index=colnames)
     return row, sample_set_dwave
 
 
@@ -27,7 +27,7 @@ def running_dwave_exact(linear, quadratic, exact_solution, colnames,
     solution, fval, prob, rank, _ = results_from_dwave(sample_set_exact, exact=True)
     flag = exact_solution == solution
     row = pd.Series([params['distr'], params['n'], solution, None, fval, prob,
-                     rank, time_run, 'exact dwave', flag, None], index=colnames)
+                     rank, time_run, 'exact dwave', flag, None, None], index=colnames)
 
     return row, sample_set_exact
 
@@ -42,7 +42,7 @@ def running_QAOA(linear, quadratic, exact_solution, colnames,
     flag = sum(exact_solution == solution)==len(solution)
     print(exact_solution, '\n', solution)
     row = pd.Series([params['distr'], params['n'], solution, p, fval, prob,
-                     rank+1, time_run, 'QAOA', flag, None], index = colnames)
+                     rank+1, time_run, 'QAOA', flag, None, None], index = colnames)
     return row, qaoa_result, p, init
 
 
@@ -51,11 +51,11 @@ def run_all(distributions, n_agents, root_folder, penalty=None, dwave_runs = 100
             create_file = True, seed=12345,
             QAOA=True, dwave=True, exact=True, classical_BILP=True, folder='__'):
 
-    root_folder=os.path.join(root_folder, f'{seed}', folder)
+    root_folder = os.path.join(root_folder, f'{seed}', folder)
     create_dir(root_folder)
 
-    colnames = ["distribution", "n_agents", "solution", "p", "fval",
-                "prob", "rank", "time", "device", "flag", "time_bilp"]
+    colnames = ["distribution", "n_agents", "solution", "p", "fval", "prob",
+                "rank", "time", "device", "flag", "time_bilp", "penalty"]
 
     path_all = os.path.join(root_folder, 'all_results.csv')
     qaoa_file, dwave_file, exact_dwave = 'qaoa.csv', 'dwave.csv', 'exact_dwave.csv'
@@ -64,7 +64,6 @@ def run_all(distributions, n_agents, root_folder, penalty=None, dwave_runs = 100
     if create_file:
         df_complete = pd.DataFrame(columns=colnames)
         df_complete.to_csv(path_all, index=False)
-
 
 
     for distribution in distributions:
@@ -99,7 +98,7 @@ def run_all(distributions, n_agents, root_folder, penalty=None, dwave_runs = 100
                 end = time.time()
                 bilp_time = (end - start)*1000
             else:
-                exact_solution = (2 ** n) * [0.]  # list(map(np.float, list(solve_BILP_classical(coalition_values))))
+                exact_solution = (2 ** n) * [0.]
                 bilp_time = None
 
 
@@ -108,9 +107,11 @@ def run_all(distributions, n_agents, root_folder, penalty=None, dwave_runs = 100
                 row, sample_set = running_dwave(linear, quadratic, exact_solution, colnames,
                                                 n_runs=dwave_runs, params={'distr':distr, 'n':n})
                 row['time_bilp'] = bilp_time
+                row['penalty'] = penalty
                 row = pd.DataFrame(row).transpose()
 
-                row.to_csv(os.path.join(path, dwave_file), mode='a', index=False, header=False)
+
+                row.to_csv(os.path.join(path, dwave_file), mode='a', index=False)
                 row.to_csv(path_distr, mode='a', index=False, header=False)
                 row.to_csv(path_all, mode='a', index=False, header=False)
 
@@ -121,9 +122,10 @@ def run_all(distributions, n_agents, root_folder, penalty=None, dwave_runs = 100
                 row, sample_set = running_dwave_exact(linear, quadratic,
                                                       exact_solution, colnames, params={'distr':distr, 'n':n})
                 row['time_bilp'] = bilp_time
+                row['penalty'] = penalty
                 row = pd.DataFrame(row).transpose()
 
-                row.to_csv(os.path.join(path, exact_dwave), mode='a', index=False, header=False)
+                row.to_csv(os.path.join(path, exact_dwave), mode='a', index=False)
                 row.to_csv(path_distr, mode='a', index=False, header=False)
                 row.to_csv(path_all, mode='a', index=False, header=False)
 
@@ -135,9 +137,10 @@ def run_all(distributions, n_agents, root_folder, penalty=None, dwave_runs = 100
                 row, qaoa_result, p, init = running_QAOA(linear, quadratic,
                                                          exact_solution, colnames, params={'distr':distr, 'n':n})
                 row['time_bilp'] = bilp_time
+                row['penalty'] = penalty
                 row = pd.DataFrame(row).transpose()
 
-                row.to_csv(os.path.join(path, qaoa_file), mode='a', index=False, header=False)
+                row.to_csv(os.path.join(path, qaoa_file), mode='a', index=False)
                 row.to_csv(path_distr, mode='a', index=False, header=False)
                 row.to_csv(path_all, mode='a', index=False, header=False)
                 # ----------------------------------------------------------------------- #
@@ -160,33 +163,42 @@ if __name__=="__main__":
     # import shutil
     # shutil.rmtree(r'output')
 
-    distributions = [Agent_based_uniform, Agent_based_normal, Modified_uniform_distribution,
-                     Normal_distribution, SVA_BETA_distribution, Weibull_distribution, Rayleigh_distribution,
-                     Weighted_random_with_chisquare, F_distribution, Laplace_or_double_exponential]
     seed = 12
-
-    penalty = None
-    # with more than 3 agents (n>3) the penalty parameter is updated as 10**n
-
     root = 'output'
     create_dir(root)
 
+    # QAOA
+    # Running the experiments for all distributions, with 2 and 3 agents
+    distributions = [Agent_based_uniform, Agent_based_normal, Modified_uniform_distribution,
+                     Normal_distribution, Weibull_distribution, Weighted_random_with_chisquare,
+                     F_distribution]
+    n_agents = [2,3]
+    penalty = 100
+    run_all(distributions, n_agents, root, penalty=penalty,
+            create_file=True, seed=seed, QAOA=True, dwave=True, exact=True,
+            classical_BILP=True, folder='QAOA_QA_23')
+
+
+    distributions = [Laplace_or_double_exponential, Rayleigh_distribution]
+    penalty = 1000
+    n_agents = [3]
+    run_all(distributions, n_agents, root, penalty=penalty,
+            create_file=False, seed=seed, QAOA=True, dwave=True, exact=True,
+            classical_BILP=True, folder='QAOA_QA_23')
+
+
+    distributions = [SVA_BETA_distribution]
+    penalty = 1000
+    n_agents = [2,3]
+    run_all(distributions, n_agents, root, penalty=penalty,
+            create_file=False, seed=seed, QAOA=True, dwave=True, exact=True,
+            classical_BILP=True, folder='QAOA_QA_23')
+
+
 
     # Running the Quantum Annealing (Dwave) solution for all distributions, from 2 to 7 agents
-    n_agents = [2,3,4,6,7]
-    # n_agents = [5]
-    run_all(distributions, n_agents, root, penalty, dwave_runs=10000,
-            create_file=False, seed=seed, QAOA=False, dwave=True, exact=False, classical_BILP=False, folder='QA_2_7')
-    # custom runs for dwave --> 10000
-
-
-    # # Running the experiments for all distributions, with 2 and 3 agents
-    # n_agents = [2,3]
-    # run_all(distributions, n_agents, root, penalty,
-    #         create_file=True, seed=seed, QAOA=True, dwave=True, exact=True, classical_BILP=True, folder='all_23')
-
-    # Running the experiments for all distributions with QAOA for 4 agents
-    # n_agents = [4]
-    # root_folder = os.path.join(root, 'QAOA_4')
-    # run_all(distributions, n_agents, root_folder, penalty,
-    #         create_file=True, seed=seed, QAOA=True, dwave=False, exact=False, classical_BILP=True)
+    # penalty=10**(n+1)
+    # for i in range(10):
+    #     n_agents = [2,3,4,5,6,7]
+    #     run_all(distributions, n_agents, root, penalty=penalty, dwave_runs=1000,
+    #             create_file=False, seed=seed, QAOA=False, dwave=True, exact=False, classical_BILP=False, folder='QA_27')

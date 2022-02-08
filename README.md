@@ -2,6 +2,7 @@
 
 To do (Antonio):
 - Find optimal experimental setting for problem instances with more than 3 agents (quantum annealing)
+- Update results folder
 
 
 

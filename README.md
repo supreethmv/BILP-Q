@@ -11,4 +11,4 @@ To do (Supreeth):
 - provide info regarding the experimental setting (penalty parameter for each distribution and number of agents)
 - write instructions to run the code
 - check if it possible to fix the seed of the qiskit optimization process
-- remove BOSS implementation (save it somewhere else!!!!)
+- remove BOSS implementation (save it in the a new repository named BOSS-Q)

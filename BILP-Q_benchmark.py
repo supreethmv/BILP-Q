@@ -165,40 +165,55 @@ if __name__=="__main__":
 
     seed = 12
     root = 'output'
-    create_dir(root)
-
-    # QAOA
-    # Running the experiments for all distributions, with 2 and 3 agents
-    distributions = [Agent_based_uniform, Agent_based_normal, Modified_uniform_distribution,
-                     Normal_distribution, Weibull_distribution, Weighted_random_with_chisquare,
-                     F_distribution]
-    n_agents = [2,3]
-    penalty = 100
-    run_all(distributions, n_agents, root, penalty=penalty,
-            create_file=True, seed=seed, QAOA=True, dwave=True, exact=True,
-            classical_BILP=True, folder='QAOA_QA_23')
-
-
+    # create_dir(root)
+    #
+    # # QAOA
+    # # Running the experiments for all distributions, with 2 and 3 agents
+    # distributions = [Agent_based_uniform, Agent_based_normal, Modified_uniform_distribution,
+    #                  Normal_distribution, Weibull_distribution, Weighted_random_with_chisquare,
+    #                  F_distribution]
+    # n_agents = [2,3]
+    # penalty = 100
+    # run_all(distributions, n_agents, root, penalty=penalty,
+    #         create_file=True, seed=seed, QAOA=True, dwave=True, exact=True,
+    #         classical_BILP=True, folder='QAOA_QA_23')
+    #
+    #
+    # distributions = [Laplace_or_double_exponential, Rayleigh_distribution]
+    # penalty = 1000
+    # n_agents = [3]
+    # run_all(distributions, n_agents, root, penalty=penalty,
+    #         create_file=False, seed=seed, QAOA=True, dwave=True, exact=True,
+    #         classical_BILP=True, folder='QAOA_QA_23')
+    #
+    #
     distributions = [Laplace_or_double_exponential, Rayleigh_distribution]
-    penalty = 1000
-    n_agents = [3]
+    penalty = 100
+    n_agents = [2]
     run_all(distributions, n_agents, root, penalty=penalty,
             create_file=False, seed=seed, QAOA=True, dwave=True, exact=True,
             classical_BILP=True, folder='QAOA_QA_23')
 
-
-    distributions = [SVA_BETA_distribution]
-    penalty = 1000
-    n_agents = [2,3]
-    run_all(distributions, n_agents, root, penalty=penalty,
-            create_file=False, seed=seed, QAOA=True, dwave=True, exact=True,
-            classical_BILP=True, folder='QAOA_QA_23')
+    # distributions = [SVA_BETA_distribution]
+    # penalty = 1000
+    # n_agents = [2,3]
+    # run_all(distributions, n_agents, root, penalty=penalty,
+    #         create_file=False, seed=seed, QAOA=True, dwave=True, exact=True,
+    #         classical_BILP=True, folder='QAOA_QA_23')
 
 
 
     # Running the Quantum Annealing (Dwave) solution for all distributions, from 2 to 7 agents
-    # penalty=10**(n+1)
-    # for i in range(10):
-    #     n_agents = [2,3,4,5,6,7]
+    # distributions = [Agent_based_uniform, Agent_based_normal, Modified_uniform_distribution,
+    #                  Normal_distribution, Weibull_distribution, Weighted_random_with_chisquare,
+    #                  F_distribution, Laplace_or_double_exponential, Rayleigh_distribution,
+    #                  SVA_BETA_distribution]
+    #
+    # for i in range(3,8):
+    #     n_agents = [4, 5, 6, 7]
+    #
+    #     penalty = 10**i
+    #
     #     run_all(distributions, n_agents, root, penalty=penalty, dwave_runs=1000,
-    #             create_file=False, seed=seed, QAOA=False, dwave=True, exact=False, classical_BILP=False, folder='QA_27')
+    #             create_file=True, seed=seed, QAOA=False, dwave=True, exact=False, classical_BILP=False,
+    #             folder=f'QA_hyper_params_47_{i}')

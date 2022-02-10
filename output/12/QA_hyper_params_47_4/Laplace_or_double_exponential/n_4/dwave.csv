@@ -1,0 +1,2 @@
+distribution,n_agents,solution,p,fval,prob,rank,time,device,flag,time_bilp,penalty
+Laplace_or_double_exponential,4,"[0.0, 1.0, 0.0, 0.0, 1.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]",,-40040.451,0.023,1,116.02,dwave,False,,10000

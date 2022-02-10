@@ -1,0 +1,2 @@
+distribution,n_agents,solution,p,fval,prob,rank,time,device,flag,time_bilp,penalty
+Weibull_distribution,4,"[0.0, 1.0, 0.0, 0.0, 1.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]",,-40004.774000000005,0.003,51,111.22,dwave,False,,10000

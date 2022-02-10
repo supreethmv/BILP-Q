@@ -1,0 +1,2 @@
+distribution,n_agents,solution,p,fval,prob,rank,time,device,flag,time_bilp,penalty
+Agent_based_uniform,5,"[0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]",,-50000030.401999995,0.001,13,127.12,dwave,False,,10000000

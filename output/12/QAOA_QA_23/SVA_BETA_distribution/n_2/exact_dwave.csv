@@ -1,0 +1,2 @@
+distribution,n_agents,solution,p,fval,prob,rank,time,device,flag,time_bilp,penalty
+SVA_BETA_distribution,2,"[0.0, 0.0, 1.0]",,-2201.9970000000003,1,1,0.0001652240753173828,exact dwave,True,0.07987022399902344,1000

@@ -1,0 +1,10 @@
+distribution,n_agents,solution,p,fval,prob,rank,time,device,flag,time_bilp,penalty
+Weighted_random_with_chisquare,2,"[0.0, 0.0, 1.0]",,-210.23899999999998,0.573,1,84.04,dwave,True,0.06794929504394531,100
+Weighted_random_with_chisquare,2,"[0.0, 0.0, 1.0]",,-210.23899999999998,1,1,0.00019812583923339844,exact dwave,True,0.06794929504394531,100
+Weighted_random_with_chisquare,2,[0. 0. 1.],2,-210.23899999999998,0.2763671875,1,0.0547940731048584,QAOA,True,0.06794929504394531,100
+Weighted_random_with_chisquare,3,"[1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0]",,-314.63,0.148,2,119.04,dwave,True,0.614166259765625,100
+Weighted_random_with_chisquare,3,"[1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0]",,-314.63,1,1,0.0003476142883300781,exact dwave,True,0.614166259765625,100
+Weighted_random_with_chisquare,3,[0. 1. 0. 0. 1. 0. 0.],4,-314.548,0.0458984375,1,0.5131545066833496,QAOA,False,0.614166259765625,100
+Weighted_random_with_chisquare,3,"[1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0]",,-314.63,0.209,2,105.76,dwave,True,0.5285739898681641,100
+Weighted_random_with_chisquare,3,"[1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0]",,-314.63,1,1,0.0003895759582519531,exact dwave,True,0.5285739898681641,100
+Weighted_random_with_chisquare,3,[1. 0. 0. 0. 0. 1. 0.],6,-314.63,0.03710937499999999,1,1.5820412635803223,QAOA,True,0.5285739898681641,100

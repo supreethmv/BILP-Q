@@ -1,0 +1,2 @@
+distribution,n_agents,solution,p,fval,prob,rank,time,device,flag,time_bilp,penalty
+SVA_BETA_distribution,2,[0. 0. 1.],2,-2201.9970000000003,0.1767578125,1,0.052850961685180664,QAOA,True,0.07987022399902344,1000

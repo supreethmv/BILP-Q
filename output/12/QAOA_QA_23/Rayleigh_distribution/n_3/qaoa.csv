@@ -1,0 +1,6 @@
+distribution,n_agents,solution,p,fval,prob,rank,time,device,flag,time_bilp,penalty
+Rayleigh_distribution,3,[0. 0. 1. 1. 0. 0. 0.],12,-3052.904,0.0380859375,1,2.234494209289551,QAOA,True,0.5276203155517578,1000
+distribution,n_agents,solution,p,fval,prob,rank,time,device,flag,time_bilp,penalty
+Rayleigh_distribution,3,[1. 0. 0. 0. 0. 1. 0.],4,-349.88,0.033203125,1,0.5167880058288574,QAOA,False,0.6163120269775391,100
+distribution,n_agents,solution,p,fval,prob,rank,time,device,flag,time_bilp,penalty
+Rayleigh_distribution,3,[0. 0. 1. 1. 0. 0. 0.],12,-3052.904,0.0380859375,1,2.4911446571350098,QAOA,True,0.60272216796875,1000

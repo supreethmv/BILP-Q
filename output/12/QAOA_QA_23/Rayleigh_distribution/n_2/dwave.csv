@@ -1,0 +1,2 @@
+distribution,n_agents,solution,p,fval,prob,rank,time,device,flag,time_bilp,penalty
+Rayleigh_distribution,2,"[1.0, 1.0, 0.0]",,-216.094,0.602,1,68.2,dwave,True,0.06198883056640625,100

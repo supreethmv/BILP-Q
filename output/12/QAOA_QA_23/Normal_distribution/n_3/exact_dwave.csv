@@ -1,0 +1,2 @@
+distribution,n_agents,solution,p,fval,prob,rank,time,device,flag,time_bilp,penalty
+Normal_distribution,3,"[0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0]",,-330.02700000000004,1,1,0.00040411949157714844,exact dwave,True,0.576019287109375,100

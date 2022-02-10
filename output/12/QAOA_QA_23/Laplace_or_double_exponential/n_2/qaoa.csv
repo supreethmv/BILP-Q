@@ -1,0 +1,2 @@
+distribution,n_agents,solution,p,fval,prob,rank,time,device,flag,time_bilp,penalty
+Laplace_or_double_exponential,2,[1. 1. 0.],1,-219.943,0.2705078125,1,0.12041378021240234,QAOA,True,0.064849853515625,100

@@ -1,0 +1,11 @@
+coalition_values: {'1': 10.002, '2': 9.983, '1,2': 20.008}    
+linear: {'x_2': -220.00799999999998, 'x_0': -110.00200000000001, 'x_1': -109.983}    
+quadratic: {('x_0', 'x_2'): 200.0, ('x_1', 'x_2'): 200.0}    
+p:    1    
+init: [0.0, 0.0] 
+solution: solution     [0.0, 0.0, 1.0]
+fval                -220.008
+prob                0.289062
+rank_prob                  1
+rank_fval                  1
+Name: 0, dtype: object 

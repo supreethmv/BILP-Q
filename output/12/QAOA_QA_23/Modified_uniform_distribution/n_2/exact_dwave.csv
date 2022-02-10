@@ -1,0 +1,2 @@
+distribution,n_agents,solution,p,fval,prob,rank,time,device,flag,time_bilp,penalty
+Modified_uniform_distribution,2,"[0.0, 0.0, 1.0]",,-219.685,1,1,0.0001728534698486328,exact dwave,True,0.059604644775390625,100

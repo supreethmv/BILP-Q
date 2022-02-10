@@ -1,0 +1,6 @@
+distribution,n_agents,solution,p,fval,prob,rank,time,device,flag,time_bilp,penalty
+Laplace_or_double_exponential,3,"[0.0, 0.0, 1.0, 1.0, 0.0, 0.0, 0.0]",,-3030.344,1,1,0.0003848075866699219,exact dwave,True,0.5521774291992188,1000
+distribution,n_agents,solution,p,fval,prob,rank,time,device,flag,time_bilp,penalty
+Laplace_or_double_exponential,3,"[0.0, 0.0, 1.0, 1.0, 0.0, 0.0, 0.0]",,-330.34400000000005,1,1,0.0003910064697265625,exact dwave,True,0.5540847778320312,100
+distribution,n_agents,solution,p,fval,prob,rank,time,device,flag,time_bilp,penalty
+Laplace_or_double_exponential,3,"[0.0, 0.0, 1.0, 1.0, 0.0, 0.0, 0.0]",,-3030.344,1,1,0.00039505958557128906,exact dwave,True,0.6082057952880859,1000

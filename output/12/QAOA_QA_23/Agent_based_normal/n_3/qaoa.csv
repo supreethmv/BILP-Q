@@ -1,0 +1,2 @@
+distribution,n_agents,solution,p,fval,prob,rank,time,device,flag,time_bilp,penalty
+Agent_based_normal,3,[0. 1. 0. 0. 1. 0. 0.],17,-311.605,0.05078124999999999,1,3.1334941387176514,QAOA,True,0.5173683166503906,100

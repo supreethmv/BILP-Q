@@ -1,4 +1,3 @@
-from Utils import *
 from Utils_CSG import *
 from Utils_Solvers import *
 

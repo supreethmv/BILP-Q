@@ -64,7 +64,12 @@ def create_dir(path, log=False):
 def qaoa_for_qubo(qubo, p=1):                   # QAOA solver for QUBO
   """
   qaoa_for_qubo solves the given QUBO using QAOA
+  :param
+  qubo: CSG problem instance reduced to the form of qubo.
+  p: Integerr specifying the number of layers in the QAOA circuit.
 
+  :return
+  result: An array of binary digits which denotes the solutionn of the input qubo problem
   """
   aqua_globals.random_seed = 123
   initial_point = [np.random.uniform(2*np.pi) for _ in range(2*p)]
@@ -81,6 +86,11 @@ def qaoa_for_qubo(qubo, p=1):                   # QAOA solver for QUBO
 def numpy_for_qubo(qubo, p=None):                      # Classical solver for QUBO
   """
   numpy_for_qubo solves the given QUBO using Numpy library functions
+  :param
+  qubo: CSG problem instance reduced to the form of qubo.
+
+  return:
+  result: An array of binary digits which denotes the solutionn of the input qubo problem
   """
   exact_mes = NumPyMinimumEigensolver()
   exact = MinimumEigenOptimizer(exact_mes)  # using the exact classical numpy minimum eigen solver
@@ -93,6 +103,14 @@ def numpy_for_qubo(qubo, p=None):                      # Classical solver for QU
 def solve_QUBO(linear, quadratic, algo, p=1):
   """
   solve_QUBO is ahigher order function to solve QUBO using the given algo parameter function
+  :param
+  linear: dictionary of linear coefficient terms in the QUBO formulation of the CSG problem.
+  quadratic: dictionary of quadratic coefficient terms in the QUBO formulation of the CSG problem.
+  algo: a callback function for qaoa_for_qubo or numpy_for_qubo
+
+  return:
+  result: An array of binary digits which denotes the solutionn of the input qubo problem
+
 
   """
   keys = list(linear.keys())
@@ -115,6 +133,11 @@ def natural_keys(text):
   http://nedbatchelder.com/blog/200712/human_sorting.ht
   For example: Built-in function ['x_8','x_10','x_1'].sort() will sort as ['x_1', 'x_10', 'x_8']
   But using natural_keys as callback function for sort() will sort as ['x_1','x_8','x_10']
+  param:
+  text: a list of strings ending with numerical characters
+
+  return:
+  sorted list in a human way
   """
   return [ atoi(c) for c in re.split(r'(\d+)', text) ]
 
@@ -122,6 +145,11 @@ def natural_keys(text):
 def atoi(text):
   """
   Function returns the corresponding value of a numerical string as integer datatype
+  param:
+  text: string conntaining only numerical charcaters
+
+  return:
+  integer value corresponding to the input text
   """
   return int(text) if text.isdigit() else text
 
@@ -133,8 +161,21 @@ def atoi(text):
 
 
 def exact_solver(linear, quadratic, offset = 0.0):
-    
-   
+    """
+    Solve Ising hamiltonian or qubo problem instance using dimod API.
+    dimod is a shared API for samplers.It provides:
+    - classes for quadratic models—such as the binary quadratic model (BQM) class that contains Ising and QUBO models used by samplers such as the D-Wave system—and higher-order (non-quadratic) models.
+    - reference examples of samplers and composed samplers.
+    - abstract base classes for constructing new samplers and composed samplers.
+
+    :params
+    linear: dictionary of linear coefficient terms in the QUBO formulation of the CSG problem.
+    quadratic: dictionary of quadratic coefficient terms in the QUBO formulation of the CSG problem.
+    offset: Constant energy offset associated with the Binary Quadratic Model.
+
+    :return
+    sample_set: Samples and any other data returned by dimod samplers.
+    """
     vartype = dimod.BINARY
 
     bqm = dimod.BinaryQuadraticModel(linear, quadratic, offset, vartype)
@@ -145,9 +186,17 @@ def exact_solver(linear, quadratic, offset = 0.0):
 
 
 def dwave_solver(linear, quadratic, offset = 0.0, runs=1000):
-    
-    # linear = linear_dict
-    # quadratic = quadratic_dict
+    """
+    Solve Ising hamiltonian or qubo problem instance using dimod API for using dwave system.
+
+    :params
+    linear: dictionary of linear coefficient terms in the QUBO formulation of the CSG problem.
+    quadratic: dictionary of quadratic coefficient terms in the QUBO formulation of the CSG problem.
+    runs: Number of repeated executions
+
+    :return
+    sample_set: Samples and any other data returned by dimod samplers.
+    """
     
     vartype = dimod.BINARY
 
@@ -159,6 +208,16 @@ def dwave_solver(linear, quadratic, offset = 0.0, runs=1000):
 
 
 def extract_best_result(df):
+    """
+    A function to fetch the binary string with least energy of the input hamiltonian operator
+
+    :params
+    df: 
+
+    :return
+    x: an array of binary digits specifies the solution of the input problem instance
+    fval: value of the operator corresponding to the binary digits in x
+    """
     
     row_min = df[df.energy == df.energy.min()]
 
@@ -176,6 +235,16 @@ def extract_best_result(df):
     return x, fval
 
 def from_bin_to_var(x, dictionary):
+    """
+    function to convert binary string to coalition structure
+
+    :params
+    x: an array of binary digits (specifies the solution of the input problem instance)
+    dictionary: dictionary with coalitions as keys and coalition values as values (CSG problem instance)
+    
+    :return
+    solution: list of lists. coalition structure.
+    """
     solution = []
     for i in range(len(x)):
         if x[i] == 1:
@@ -185,7 +254,16 @@ def from_bin_to_var(x, dictionary):
 
 
 def create_QUBO(linear_dict, quadratic_dict):    
-    # create a QUBO
+    """
+    create a QUBO problem instance using the linear and quadratic coefficients.
+
+    :params
+    linear: dictionary of linear coefficient terms in the QUBO formulation of the CSG problem.
+    quadratic: dictionary of quadratic coefficient terms in the QUBO formulation of the CSG problem.
+
+    :return
+    Object of QuadraticProgram class corresponding to the input linear and quadratic coefficients.
+    """
     qubo = QuadraticProgram()
     
     keys = list(linear_dict.keys())
@@ -200,7 +278,7 @@ def create_QUBO(linear_dict, quadratic_dict):
 
 
 def from_columns_to_string(df):
-    
+
     cols = []
     for col in df.columns:
         if 'x_' in col:
@@ -216,6 +294,14 @@ def from_columns_to_string(df):
 
 
 def get_ordered_solution(dictionary):
+    """
+    Reordering the (key,value) pairs in the dictionary to fetch only the values in order.
+    param:
+    dictionary: input dictionary.
+
+    return:
+    solution: list of values after reordering the dictionary elements.
+    """
     sortedDict = dict(sorted(dictionary.items(), key=lambda x: x[0].lower()))
     solution = []
     for k, v in sortedDict.items():
@@ -225,6 +311,19 @@ def get_ordered_solution(dictionary):
 
 
 def results_from_QAOA(result):
+    """
+    Fetch the details of the output from QAOA.
+
+    :params
+    result: The output of QAOA.
+
+    :return
+    solution: a list of binary values corresponding to the solution provided by the output of QAOA.
+    fval: The function value (operator value) of the input hamiltonian corresponding to the solution.
+    prob: Probability of the solution.
+    rank: rank of the solution out of all possible binary arrays.
+    time: time taken by the QAOA to compute the solution.
+    """
     # result = qaoa_result
     solution = result.x #get_ordered_solution(result.variables_dict)
     fval = result.fval
@@ -248,6 +347,19 @@ def results_from_QAOA(result):
 
 
 def results_from_dwave(sample_set, exact=False):
+    """
+    Fetch the details of the output from D-Wave system (Quantum Annealing).
+
+    :params
+    sample_set: Samples and any other data returned by dimod samplers.
+
+    :return
+    solution: a list of binary values corresponding to the solution provided by the output of D-Wave device.
+    fval: The function value (operator value) of the input hamiltonian corresponding to the solution.
+    prob: Probability of the solution.
+    rank: rank of the solution out of all possible binary arrays.
+    time: time taken by the D-Wave device to compute the solution.
+    """
     df = sample_set.to_pandas_dataframe()
     row_min = df[df.energy == df.energy.min()]
 
@@ -285,7 +397,16 @@ def results_from_dwave(sample_set, exact=False):
 
 
 def ranking_results_QAOA(qaoa_result, exact_solution=None):
+    """
+    Get the rank of the output from qaoa.
 
+    :params
+    qaoa_result: output from QAOA.
+    exact_solution: Ground truth solution of the input problem instance.
+
+    :return
+    df: a DataFrame containing the solution, function vallue and the probabilities as columns.
+    """
     df=pd.DataFrame(columns = ['solution', 'fval', 'prob'])
 
     for sample in qaoa_result.samples:
@@ -304,7 +425,21 @@ def ranking_results_QAOA(qaoa_result, exact_solution=None):
             return df, pd.Series()
 
 def QAOA_optimization(linear, quadratic, n_init=10, p_list=np.arange(1,10), info=''):
+    """
+    A function to find the best paramter choices for QAOA corresponding to the input problem instance.
 
+    :params
+    linear: dictionary of linear coefficient terms in the QUBO formulation of the CSG problem.
+    quadratic: dictionary of quadratic coefficient terms in the QUBO formulation of the CSG problem.
+    n_init: number of initial points.
+    p_list: list if numbers specifying the number of interaction layers in the QAOA circuit.
+
+    :return
+    final_qaoa_result: Soltuion string corresponding to the QAOA output.
+    optimal_p: Value of p that generated the correct solution.
+    optimal_init: Value of the intial points corresponding to the correct solution.
+    time: Time taken in seconds by QAOA to find the solution.
+    """
     
     backend = BasicAer.get_backend('qasm_simulator')
     
@@ -313,7 +448,7 @@ def QAOA_optimization(linear, quadratic, n_init=10, p_list=np.arange(1,10), info
     # provider.backends()
     # backend = provider.get_backend('ibmq_qasm_simulator')
     
-    optimizer = COBYLA(maxiter=100, rhobeg=2, tol=1.5)  # , disp=True)
+    optimizer = COBYLA(maxiter=100, rhobeg=2, tol=1.5)
 
     qubo = create_QUBO(linear, quadratic)
 
@@ -328,7 +463,7 @@ def QAOA_optimization(linear, quadratic, n_init=10, p_list=np.arange(1,10), info
     optimal_p = 1
     optimal_init = [0.,0.]
     time = final_qaoa_result.min_eigen_solver_result.optimizer_time
-    ###
+
     
     min_sol, min_fval, min_prob, min_rank, _ = results_from_QAOA(final_qaoa_result)
 
@@ -359,129 +494,4 @@ def QAOA_optimization(linear, quadratic, n_init=10, p_list=np.arange(1,10), info
                 time = final_qaoa_result.min_eigen_solver_result.optimizer_time
                 
     return final_qaoa_result, optimal_p, optimal_init, time
-
-# def QAOA_optimization(linear, quadratic, n_init=10, p_list=np.arange(1,10), solution=None, info='',
-#                       param_log={'root_folder':'QAOA_metadata', 'distribution':None, 'n_agents':None}):
-
-    
-#     backend = BasicAer.get_backend('qasm_simulator')
-    
-#     # IBMQ.load_account()
-#     # provider = IBMQ.get_provider(hub='ibm-q')
-#     # provider.backends()
-#     # backend = provider.get_backend('ibmq_qasm_simulator')
-    
-#     optimizer = COBYLA(maxiter=100, rhobeg=2, tol=1.5)  # , disp=True)
-
-#     qubo = create_QUBO(linear, quadratic)
-
-#     op, offset = qubo.to_ising()
-#     qp = QuadraticProgram()
-#     qp.from_ising(op, offset, linear=True)
-
-    
-#     ### Initialisation solution
-#     qaoa_mes = QAOA(optimizer=optimizer, reps=1, quantum_instance=backend, initial_point=[0.,0.])
-#     qaoa = MinimumEigenOptimizer(qaoa_mes)  # using QAOA
-#     final_qaoa_result = qaoa.solve(qubo)
-    
-#     optimal_p = 1
-#     optimal_init = [0.,0.]
-#     time = final_qaoa_result.min_eigen_solver_result.optimizer_time
-#     min_sol, min_fval, min_prob, min_rank, _ = results_from_QAOA(final_qaoa_result)
-    
-#     best_solution, best_fval, best_prob, best_rank, _ = results_from_QAOA(final_qaoa_result)
-#     best_qaoa_result = final_qaoa_result
-#     best_p, best_init, best_time = optimal_p, optimal_init, time
-#     ###############################################################
-    
-#     for p in p_list:
-#         grid_init = [np.random.normal(1, 1, p * 2) for i in range(n_init)]
-
-#         for init in grid_init:
-
-#             qaoa_mes = QAOA(optimizer=optimizer, reps=p,
-#                             quantum_instance=backend, initial_point=init)
-
-#             qaoa = MinimumEigenOptimizer(qaoa_mes)  # using QAOA
-#             qaoa_result = qaoa.solve(qubo)
-                            
-            
-#             _, fval, _, rank, _ = results_from_QAOA(qaoa_result)
-
-#             if (min_fval>fval and min_rank>rank ):
-#                 min_fval = fval
-#                 min_rank = rank
-
-#                 optimal_init = list(init)
-#                 final_qaoa_result = qaoa_result
-#                 time = final_qaoa_result.min_eigen_solver_result.optimizer_time
-                        
-        
-#         #### Save results
-#         path = os.path.join(param_log['root_folder'],param_log['distribution'],'n_'+ param_log['n_agents'], 'p_'+ str(p))
-#         create_dir(path)
-            
-#         df, data_solution = ranking_results_QAOA(final_qaoa_result, solution)
-#         df.to_csv(os.path.join(path, 'data.csv'), index=False)
-            
-   
-#         with open(os.path.join(path, 'metadata.txt'), "w") as output:
-#             output.write(f'p: {p} \n')
-#             output.write(f'init: {optimal_init} \n')
-#             output.write(f'best_solution: {final_qaoa_result.x} \n')
-#             output.write(f'min_fval: {min_fval} \n')
-#             output.write(f'min_rank: {min_rank} \n')
-#             output.write(f'time: {time} \n')
-                
-#             output.write('\n --- best solution metadata --- \n')
-                
-#             for i, row in data_solution.iteritems():
-#                 output.write(f'{i}: {row} \n')
-#             output.close()
-    
-#         # print(min_fval, best_fval, '-----', min_rank , best_rank)
-#         if (min_fval < best_fval and min_rank < best_rank):
-            
-#             best_fval = min_fval
-#             best_rank = min_rank
-
-#             best_p = p
-#             best_init = optimal_init
-            
-#             best_qaoa_result = final_qaoa_result
-#             best_time = best_qaoa_result.min_eigen_solver_result.optimizer_time
-#             best_solution = best_qaoa_result.x
-            
-#         min_fval=10**5
-
-#     path = os.path.join(param_log['root_folder'],param_log['distribution'],'n_'+ param_log['n_agents'])
-        
-#     df, data_solution = ranking_results_QAOA(best_qaoa_result, solution)
-#     df.to_csv(os.path.join(path, 'data.csv'), index=False)
-
-#     with open(os.path.join(path, 'metadata.txt'), "w") as output:
-#         output.write(f'p:    {best_p}    \n')
-#         output.write(f'init: {best_init} \n')
-#         output.write(f'best_solution: {best_solution} \n')
-#         output.write(f'fval: {best_fval} \n')
-#         output.write(f'rank: {best_rank} \n')
-#         output.write(f'time: {best_time} \n')
-        
-#         output.write('\n --- best solution metadata --- \n')
-
-#         for i, row in data_solution.iteritems():
-#             output.write(f'{i}: {row} \n')
-#         output.close()
-            
-            
-#     return best_qaoa_result, best_p, best_init, time
-
-
-
-
-
-
-
-
 

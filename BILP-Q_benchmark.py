@@ -5,6 +5,18 @@ from Utils_Solvers import *
 
 def running_dwave(linear, quadratic, exact_solution, colnames,
                   params={'distr':'', 'n':0}, n_runs=1000):
+    """
+    Solve the experimental input instance using the dwave device
+    :params
+    linear: dictionary of linear coefficient terms in the QUBO formulation of the CSG problem.
+    quadratic: dictionary of quadratic coefficient terms in the QUBO formulation of the CSG problem.
+    exact_solution: This is the exact solution of the input problem instance for verifying the output from dwave system.
+    colnames: list of column headers for generating a report using a standard schema.
+    
+    :return
+    row: pandas Series object consisting of outputs and input distribution name and agents to generate the final report.
+    sample_set_dwave: input parameters used for solving the problem instance using dwave system.
+    """
     print(f'running dwave  -  {params["distr"]}  -  {params["n"]}')
 
     sample_set_dwave = dwave_solver(linear, quadratic, runs=n_runs)
@@ -17,6 +29,18 @@ def running_dwave(linear, quadratic, exact_solution, colnames,
 
 def running_dwave_exact(linear, quadratic, exact_solution, colnames,
                         params={'distr':'', 'n':0}):
+    """
+    Solve the experimental data input using the dwave device exactly
+    :params
+    linear: dictionary of linear coefficient terms in the QUBO formulation of the CSG problem.
+    quadratic: dictionary of quadratic coefficient terms in the QUBO formulation of the CSG problem.
+    exact_solution: This is the exact solution of the input problem instance for verifying the output from dwave system.
+    colnames: list of column headers for generating a report using a standard schema.
+    
+    :return
+    row: pandas Series object consisting of outputs and input distribution name and agents to generate the final report.
+    sample_set_dwave: input parameters used for solving the problem instance using dwave system.
+    """
     print(f'exact dwave  -  {params["distr"]}  -  {params["n"]}')
 
     start = time.time()
@@ -34,7 +58,19 @@ def running_dwave_exact(linear, quadratic, exact_solution, colnames,
 
 def running_QAOA(linear, quadratic, exact_solution, colnames,
                  params={'distr':'', 'n':0}, n_init=20, p_list=np.arange(1,20)):
-
+    """
+    Solve the experimental data input using the QAOA
+    :params
+    linear: dictionary of linear coefficient terms in the QUBO formulation of the CSG problem.
+    quadratic: dictionary of quadratic coefficient terms in the QUBO formulation of the CSG problem.
+    exact_solution: This is the exact solution of the input problem instance for verifying the output from dwave system.
+    colnames: list of column headers for generating a report using a standard schema.
+    params: input parameterization for qiskit's QAOA
+    
+    :return
+    row: pandas Series object consisting of outputs and input distribution name and agents to generate the final report.
+    sample_set_dwave: input parameters used for solving the problem instance using dwave system.
+    """
     print(f'running qaoa  -  {params["distr"]}  -  {params["n"]}')
 
     qaoa_result, p, init, _ = QAOA_optimization(linear, quadratic, n_init=n_init, p_list=p_list)
@@ -50,6 +86,25 @@ def running_QAOA(linear, quadratic, exact_solution, colnames,
 def run_all(distributions, n_agents, root_folder, penalty=None, dwave_runs = 1000,
             create_file = True, seed=12345,
             QAOA=True, dwave=True, exact=True, classical_BILP=True, folder='__'):
+    """
+    Solve the experimental data input using the dwave device
+    :params
+    distributions: list of function names of distributions in Utils_CSG.py .
+    n_agents: list of integers mentioning the number of agents considered for experiments.
+    root_folder: root folder for the outputs.
+    penalty: hyper parameter to reduce contraint problem to unconstraint problem, large value is recommended as n_agents increase.
+    dwave_runs: number of runs for each instance on the dwave system.
+    create_file: Boolean value, if True, a new directory is created for each Distribution.
+    seed: seed value for numpy to generate random numbers.
+    QAOA: Boolean value to specify to coonsideration of QAOA for running the experiments.
+    dwave: Boolean value to specify to coonsideration of dwave system for running the experiments.
+    exact: Boolean value to specify to coonsideration of dwave system exactly for running the experiments.
+    classical_BILP: Boolean value to specify to coonsideration of classically solving equivalent BILP problem for running the experiments.
+    folder: subfolder inside root_folder to save the results
+    
+    :return
+    None
+    """
 
     root_folder = os.path.join(root_folder, f'{seed}', folder)
     create_dir(root_folder)
@@ -191,8 +246,8 @@ if __name__=="__main__":
     penalty = 100
     n_agents = [2]
     run_all(distributions, n_agents, root, penalty=penalty,
-            create_file=False, seed=seed, QAOA=True, dwave=True, exact=True,
-            classical_BILP=True, folder='QAOA_QA_23')
+            create_file=False, seed=seed, QAOA=True, dwave=False, exact=False,
+            classical_BILP=True, folder='QAOA_QA_2')
 
     # distributions = [SVA_BETA_distribution]
     # penalty = 1000

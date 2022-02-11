@@ -72,7 +72,7 @@ The following are parameters to be set in the file *BILP-Q_benchmark.py* before 
  - *classical_BILP*: Boolean value to specify to coonsideration of classically solving equivalent BILP problem for running the experiments.
  - *folder*: subfolder inside root_folder to save the results
 
-### Results:
+### Results
 The results reported in the paper are contained in the output folder.
 
 The penalty parameter <img src="https://render.githubusercontent.com/render/math?math=\lambda"> plays a crucial role as the problem is reduced from a constrained (BILP) to unconstrained optimization (QUBO) since the constraints are added as new terms with a penalty parameter coefficient to the original optimization function. Thus, as the size of the problem (in terms of the number of agents) increases, the penalty parameter is also expected to increase. For this reason, the experiments are run for different values of the penalty parameter.

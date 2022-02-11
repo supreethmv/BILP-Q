@@ -13,8 +13,8 @@ BILP-Q on medium-size problems using a real quantum annealer device ([Dwave](htt
 
 ## Usage
 The code is organized in different scripts in this repo to run the experiments. These scripts uses three main approaches in fetching the solution of the input CSG problem instance. A breif description of them are as follows:
-- *Gate Based*: uses the [**QAOA**]() quantum algortihm to solve the QUBO formulation of the corresponding CSG problem
-- *Quantum Annealing*: uses the [**D-Wave**](https://www.dwavesys.com/) computers to solve the input QUBO problem.
+- *Gate Based*: uses the [**QAOA**](https://qiskit.org/textbook/ch-applications/qaoa.html) quantum algortihm to solve the QUBO formulation of the corresponding CSG problem
+- *Quantum Annealing*: uses the [**D-Wave**](https://www.dwavesys.com/) quantum annealer to solve the input QUBO problem.
 - *Exact Solver*: uses classical computing to solve the BILP formulation, to  verify the results from the quantum approaches.
 
 The script *data_generator.py* is used to generate problem instances (characterisctic function) using different distributions for experimental analysis.
@@ -31,7 +31,7 @@ In order to run the code and reproduce the results of the paper, it is recommend
 *Note: tested on linux OS only; it assumes Anaconda is installed*
  - First, clone the repository:
 ```sh
-git clone https://github.com/amacaluso/Quantum-Splines-for-Non-Linear-Approximations.git
+git clone https://github.com/supreethmv/CSGP.git
 ```
  - Environment Setup:
 It is a good practice to create a virtual environment to run any project.

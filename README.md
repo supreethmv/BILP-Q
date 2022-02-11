@@ -89,7 +89,7 @@ Improved Dynamic Programming(IDP), BILP solver in comparison with the proposed B
 The code generates a graph where the <img src="https://render.githubusercontent.com/render/math?math=log_2"> of the cost
 complexity for various algorithms is plotted as a function of the number of agents (**Figure 1** in the paper). 
 
-##Issues
+## Issues
 
 For any issues or questions related to the code, open a new git issue or send a mail to
 [antonio.macaluso@dfki.de](antonio.macaluso@dfki.de) or [s8sumyso@stud.uni-saarland.de](s8sumyso@stud.uni-saarland.de).

@@ -13,6 +13,15 @@ import itertools
 ################### ########
 #Different distributions data generator functions
 
+"""
+All different distributions considered as benchmark for the evaluation of the State of the art
+Coalition Structure Generationn Problem solver, i.e., A Bi-directional Search Technique for 
+Optimal Coalition Structure Generation with Minimal Overlapping has been considered below.
+
+The below functions are generating the coalition values which are in the distribution of the 
+corresponding function names.
+"""
+
 def Agent_based_uniform(y,Power,Numofagent):
   strx = bin(y)[2:]
   length = len(strx)

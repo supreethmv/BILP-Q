@@ -19,7 +19,7 @@ The code is organized in different scripts in this repo to run the experiments. 
 
 The script *data_generator.py* is used to generate problem instances (characterisctic function) using different distributions for experimental analysis.
 
-The script *Utils_CSG.py* contains the helper functions in structuring the outputs and generating the reports. For example, *convert_to_BILP()* function formulates the BILP problem for a given CSG problem instance, *get_QUBO_coeffs()* function converts the BILP problem instace into linear and quadratic terms required for QUBO formulation, *decode()* function converts the solution binary string into a coalition sructure(a list of coalitions).
+The script *Utils_CSG.py* contains the helper functions in structuring the outputs and generating the reports. For example, *convert_to_BILP()* function formulates the BILP problem for a given CSG problem instance, *get_QUBO_coeffs()* function converts the BILP problem instance into linear and quadratic terms required for QUBO formulation, *decode()* function converts the solution binary string into a coalition sructure(a list of coalitions).
 
 The script *Utils_Solvers.py* contains the functions to use the APIs of dependencies like *qiskit*, *dimod*, *d-wave* for solving the input problem instances using the above three strategies.
 

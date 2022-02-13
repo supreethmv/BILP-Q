@@ -1,7 +1,8 @@
-# Coalition Structure Generation (CSG) Problem:
+# BILP-Q: Quantum Coalition Structure Generation
 This repository contains the code to reproduce the results presented in the paper BILP-Q: Quantum Coalition Structure Generation, submitted in the 
 [19th ACM International Conference on Computing Frontiers (CF'22)](https://www.computingfrontiers.org/2022/index.html).
-## BILP-Q: Quantum Coalition Structure Generation
+
+## Introduction
 
 We propose BILP-Q, the first general quantum  approach for solving the Coalition Structure Generation problem
 (CSGP). In particular, we reformulate the CSGP in terms of a Quadratic Binary Combinatorial Optimization
@@ -91,5 +92,4 @@ complexity for various algorithms is plotted as a function of the number of agen
 
 ## Issues
 
-For any issues or questions related to the code, open a new git issue or send a mail to
-[antonio.macaluso@dfki.de](antonio.macaluso@dfki.de) or [s8sumyso@stud.uni-saarland.de](s8sumyso@stud.uni-saarland.de).
+For any issues or questions related to the code, open a new git issue or send a mail to XXXX

@@ -4,8 +4,12 @@ This repository contains the code to reproduce the results presented in the pape
 
 # Contents
 [Description](#desc)
+
 [Usage](#use)
+
 [Results](#results)
+
+[Experiments](#experiments)
 
 
 <a name="desc"></a>
@@ -58,7 +62,11 @@ The code generates a graph where the <img src="https://render.githubusercontent.
 complexity for various algorithms is plotted as a function of the number of agents (**Figure 1** in the paper). 
 
 
-A successful execution of the script will generate outputs according the parameters set.
+## Experiments
+
+After having installed all the packages in the requirements.txt, 
+a successful execution of the script will generate the output according to the following
+set of parameters.
 
 The following are parameters to be set in the file *BILP-Q_benchmark.py* before running the experiments are:
  - *distributions*: list of function names of distributions in *Utils_CSG.py*

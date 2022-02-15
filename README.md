@@ -5,6 +5,8 @@ This repository contains the code to reproduce the results presented in the pape
 # Contents
 [Description](#desc)
 
+[Results](#methods)
+
 [Results](#results)
 
 [Usage](#use)

@@ -5,9 +5,9 @@ This repository contains the code to reproduce the results presented in the pape
 # Contents
 [Description](#desc)
 
-[Usage](#use)
-
 [Results](#results)
+
+[Usage](#use)
 
 [Experiments](#experiments)
 
@@ -24,14 +24,33 @@ problem instances using the [IBM Qiskit](https://qiskit.org/) environment. Final
 BILP-Q on medium-size problems using a real quantum annealer device ([Dwave](https://www.dwavesys.com/)).
 
 
+<a name="methods"></a>
+## Methods
+The code is organized in different scripts in this repo to run the experiments. These scripts uses three main approaches in fetching the solution of the input CSG problem instance. A brief description of them are as follows:
+- *Gate Based*: uses the [**QAOA**](https://qiskit.org/textbook/ch-applications/qaoa.html) quantum algortihm to solve the QUBO formulation of the corresponding CSG problem
+- *Quantum Annealing*: uses the [**D-Wave**](https://www.dwavesys.com/) quantum annealer to solve the input QUBO problem.
+- *Exact Solver*: uses classical computing to solve the BILP formulation, to verify the results from the quantum approaches.
+
+<a name="results"></a>
+## Results
+
+The results reported in the paper are contained in the output folder. 
+In particular in the path 12/QAOA_QA_23/all_results.csv it is possible to check the results of the three methods mentioned above, for different distributions for 2 and three agents. The description of the columns of the csv file is the following:
+
+*distribution*: the distribution from which the coalition values are generated
+*n_agents*: the number of agents
+*solution*: binary solution string to the QUBO problem
+*p*: optimal $p$ parameter. It exists only when running the QUBO formulation with QAOA
+*fval*: minimum value of the optimization function
+*prob*: the probability of sampling the right solution when measuring the quantum state (different from 1 only if running with QAOA and D-Wave)
+*device*: type of approach in use (dwave, exact dwave, QAOA)
+*flag*: boolean value indicating whether the right solution has been obtained
+*time_bilp*: time required to calculate the solution to the BILP problem using classical computation
+*penalty*: penalty parameter for the given problem instance
+
 
 <a name="use"></a>
 ## Usage
-The code is organized in different scripts in this repo to run the experiments. These scripts uses three main approaches in fetching the solution of the input CSG problem instance. A breif description of them are as follows:
-- *Gate Based*: uses the [**QAOA**](https://qiskit.org/textbook/ch-applications/qaoa.html) quantum algortihm to solve the QUBO formulation of the corresponding CSG problem
-- *Quantum Annealing*: uses the [**D-Wave**](https://www.dwavesys.com/) quantum annealer to solve the input QUBO problem.
-- *Exact Solver*: uses classical computing to solve the BILP formulation, to  verify the results from the quantum approaches.
-
 The script *data_generator.py* is used to generate problem instances (characterisctic function) using different distributions for experimental analysis.
 
 The script *Utils_CSG.py* contains the helper functions in structuring the outputs and generating the reports. For example, *convert_to_BILP()* function formulates the BILP problem for a given CSG problem instance, *get_QUBO_coeffs()* function converts the BILP problem instance into linear and quadratic terms required for QUBO formulation, *decode()* function converts the solution binary string into a coalition sructure(a list of coalitions).
@@ -40,12 +59,6 @@ The script *Utils_Solvers.py* contains the functions to use the APIs of dependen
 
 The script  *BILP-Q_benchmark.py* contains the configurations to set-up for starting the experiments.
 
-
-
-<a name="results"></a>
-## Results
-
-The results reported in the paper are contained in the output folder.
 
 The penalty parameter <img src="https://render.githubusercontent.com/render/math?math=\lambda"> plays a crucial role as the problem is reduced from a constrained (BILP) to unconstrained optimization (QUBO) since the constraints are added as new terms with a penalty parameter coefficient to the original optimization function. Thus, as the size of the problem (in terms of the number of agents) increases, the penalty parameter is also expected to increase. For this reason, the experiments are run for different values of the penalty parameter.
 
@@ -60,6 +73,8 @@ Bi-directional Search Technique for Optimal Coalition Structure Generation with 
 Improved Dynamic Programming(IDP), BILP solver in comparison with the proposed BILP-Q. 
 The code generates a graph where the <img src="https://render.githubusercontent.com/render/math?math=log_2"> of the cost
 complexity for various algorithms is plotted as a function of the number of agents (**Figure 1** in the paper). 
+
+
 
 
 ## Experiments

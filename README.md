@@ -35,25 +35,42 @@ The code is organized in different scripts in this repo to run the experiments. 
 ## Results
 
 The results reported in the paper are contained in the output folder. 
-In particular in the path 12/QAOA_QA_23/all_results.csv it is possible to check the results of the three methods mentioned above, for different distributions for 2 and three agents. The description of the columns of the csv file is the following:
+In particular in the path 12/QAOA_QA_23/all_results.csv it is possible to
+check the results of the three methods mentioned above, 
+for different distributions for 2 and 3 agents. 
+The description of the columns of the csv file is the following:
 
 *distribution*: the distribution from which the coalition values are generated
+
 *n_agents*: the number of agents
+
 *solution*: binary solution string to the QUBO problem
-*p*: optimal $p$ parameter. It exists only when running the QUBO formulation with QAOA
+
+*p*: optimal *p* parameter. It exists only when running the QUBO formulation with QAOA
+
 *fval*: minimum value of the optimization function
+
 *prob*: the probability of sampling the right solution when measuring the quantum state (different from 1 only if running with QAOA and D-Wave)
+
 *device*: type of approach in use (dwave, exact dwave, QAOA)
+
 *flag*: boolean value indicating whether the right solution has been obtained
+
 *time_bilp*: time required to calculate the solution to the BILP problem using classical computation
+
 *penalty*: penalty parameter for the given problem instance
 
+The results for quantum annealing are collected and reported using the notebook *Collect_results.ipynb*.
 
 <a name="use"></a>
 ## Usage
-The script *data_generator.py* is used to generate problem instances (characterisctic function) using different distributions for experimental analysis.
 
-The script *Utils_CSG.py* contains the helper functions in structuring the outputs and generating the reports. For example, *convert_to_BILP()* function formulates the BILP problem for a given CSG problem instance, *get_QUBO_coeffs()* function converts the BILP problem instance into linear and quadratic terms required for QUBO formulation, *decode()* function converts the solution binary string into a coalition sructure(a list of coalitions).
+The script *data_generator.py* is used to generate different problem instances 
+(characteristic function) using different distributions for experimental analysis.
+
+The script *Utils_CSG.py* contains the helper functions in structuring the outputs 
+and generating the reports. For example, *convert_to_BILP()* function formulates the 
+BILP problem for a given CSG problem instance, *get_QUBO_coeffs()* function converts the BILP problem instance into linear and quadratic terms required for QUBO formulation, *decode()* function converts the solution binary string into a coalition sructure(a list of coalitions).
 
 The script *Utils_Solvers.py* contains the functions to use the APIs of dependencies like *qiskit*, *dimod*, *d-wave* for solving the input problem instances using the above three strategies.
 
@@ -83,7 +100,8 @@ After having installed all the packages in the requirements.txt,
 a successful execution of the script will generate the output according to the following
 set of parameters.
 
-The following are parameters to be set in the file *BILP-Q_benchmark.py* before running the experiments are:
+The following are parameters to be set in the file *BILP-Q_benchmark.py* before running 
+the experiments:
  - *distributions*: list of function names of distributions in *Utils_CSG.py*
  - *n_agents*: list of integers mentioning the number of agents considered for experiments.
  - *root_folder*: root folder for the outputs.

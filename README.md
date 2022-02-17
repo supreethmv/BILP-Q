@@ -1,15 +1,124 @@
-# CSGP
+# BILP-Q: Quantum Coalition Structure Generation
+This repository contains the code to reproduce the results presented in the paper BILP-Q: Quantum Coalition Structure Generation, submitted in the 
+[19th ACM International Conference on Computing Frontiers (CF'22)](https://www.computingfrontiers.org/2022/index.html).
 
-To do (Antonio):
-- Find optimal experimental setting for problem instances with more than 3 agents (quantum annealing)
-- Update results folder
+# Contents
+[Description](#desc)
+
+[Methods](#methods)
+
+[Results](#results)
+
+[Usage](#use)
+
+[Experiments](#experiments)
+
+
+<a name="desc"></a>
+## Description
+
+We propose BILP-Q, the first general quantum  approach for solving the Coalition Structure Generation problem
+(CSGP). In particular, we reformulate the CSGP in terms of a Quadratic Binary Combinatorial Optimization
+(QUBO) problem so that it is possible to leverage existing quantum algorithms to obtain the best coalition structure.
+Thus we perform a comparative analysis in terms of time complexity between the proposed quantum algorithm and the most popular
+classical baselines. Furthermore, we consider standard benchmark distributions for coalition values to test the BILP-Q on small-scale
+problem instances using the [IBM Qiskit](https://qiskit.org/) environment. Finally, since QUBO problems can be solved operating with quantum annealing, we run
+BILP-Q on medium-size problems using a real quantum annealer device ([Dwave](https://www.dwavesys.com/)).
+
+
+<a name="methods"></a>
+## Methods
+The code is organized in different scripts in this repo to run the experiments. These scripts uses three main approaches in fetching the solution of the input CSG problem instance. A brief description of them are as follows:
+- *Gate Based*: uses the [**QAOA**](https://qiskit.org/textbook/ch-applications/qaoa.html) quantum algortihm to solve the QUBO formulation of the corresponding CSG problem
+- *Quantum Annealing*: uses the [**D-Wave**](https://www.dwavesys.com/) quantum annealer to solve the input QUBO problem.
+- *Exact Solver*: uses classical computing to solve the BILP formulation, to verify the results from the quantum approaches.
+
+<a name="results"></a>
+## Results
+
+The results reported in the paper are contained in the output folder. 
+In particular in the path 12/QAOA_QA_23/all_results.csv it is possible to
+check the results of the three methods mentioned above, 
+for different distributions for 2 and 3 agents. 
+The description of the columns of the csv file is the following:
+
+*distribution*: the distribution from which the coalition values are generated
+
+*n_agents*: the number of agents
+
+*solution*: binary solution string to the QUBO problem
+
+*p*: optimal *p* parameter. It exists only when running the QUBO formulation with QAOA
+
+*fval*: minimum value of the optimization function
+
+*prob*: the probability of sampling the right solution when measuring the quantum state (different from 1 only if running with QAOA and D-Wave)
+
+*device*: type of approach in use (dwave, exact dwave, QAOA)
+
+*flag*: boolean value indicating whether the right solution has been obtained
+
+*time_bilp*: time required to calculate the solution to the BILP problem using classical computation
+
+*penalty*: penalty parameter for the given problem instance
+
+The results for quantum annealing are collected and reported using the notebook *Collect_results.ipynb*.
+
+<a name="use"></a>
+## Usage
+
+The script *data_generator.py* is used to generate different problem instances 
+(characteristic function) using different distributions for experimental analysis.
+
+The script *Utils_CSG.py* contains the helper functions in structuring the outputs 
+and generating the reports. For example, *convert_to_BILP()* function formulates the 
+BILP problem for a given CSG problem instance, *get_QUBO_coeffs()* function converts the BILP problem instance into linear and quadratic terms required for QUBO formulation, *decode()* function converts the solution binary string into a coalition sructure(a list of coalitions).
+
+The script *Utils_Solvers.py* contains the functions to use the APIs of dependencies like *qiskit*, *dimod*, *d-wave* for solving the input problem instances using the above three strategies.
+
+The script  *BILP-Q_benchmark.py* contains the configurations to set-up for starting the experiments.
+
+
+The penalty parameter <img src="https://render.githubusercontent.com/render/math?math=\lambda"> plays a crucial role as the problem is reduced from a constrained (BILP) to unconstrained optimization (QUBO) since the constraints are added as new terms with a penalty parameter coefficient to the original optimization function. Thus, as the size of the problem (in terms of the number of agents) increases, the penalty parameter is also expected to increase. For this reason, the experiments are run for different values of the penalty parameter.
+
+The final report is generated by considering the best results in terms of two criteria: the best value for the optimization function and the best rank in terms of the probabilities generated for all possible binary strings.
+
+There are two notebooks in this repository to help collect the experimental results.
+ - *Collect_results.ipynb* is used to take the root folder path of the generated output and create a table of function value, probability, the rank of the probability, and time taken along with the best penalty parameter for each distribution and number of agents. 
+As a final result, a graph to visualize results of BILP-Q using the DWave quantum annealing is generated (**Figure 2** in the paper). 
+Also, further in this notebook, the results from the QAOA are collected a final table is reported with the best $p$ parameter of QAOA chosen from the conducted experiments (same as the **Table 1** in the paper).
+ - *Complexity.ipynb* considers the theoretical time complexity of various classical solvers like Integer Partition(IP), 
+Bi-directional Search Technique for Optimal Coalition Structure Generation with Minimal Overlapping(BOSS), 
+Improved Dynamic Programming(IDP), BILP solver in comparison with the proposed BILP-Q. 
+The code generates a graph where the <img src="https://render.githubusercontent.com/render/math?math=log_2"> of the cost
+complexity for various algorithms is plotted as a function of the number of agents (**Figure 1** in the paper). 
 
 
 
-To do (Supreeth):
-- Fix jupyter notebook for data visualization using current results in the output folder (QA_27)
-- comment all the functions used, remove the others
-- provide info regarding the experimental setting (penalty parameter for each distribution and number of agents)
-- write instructions to run the code
-- check if it possible to fix the seed of the qiskit optimization process
-- remove BOSS implementation (save it in the a new repository named BOSS-Q)
+
+## Experiments
+
+After having installed all the packages in the requirements.txt, 
+a successful execution of the script will generate the output according to the following
+set of parameters.
+
+The following are parameters to be set in the file *BILP-Q_benchmark.py* before running 
+the experiments:
+ - *distributions*: list of function names of distributions in *Utils_CSG.py*
+ - *n_agents*: list of integers mentioning the number of agents considered for experiments.
+ - *root_folder*: root folder for the outputs.
+ - *penalty*: hyper parameter to reduce contraint problem to unconstraint problem, large value is recommended as n_agents increases.
+ - *dwave_runs*: number of runs for each instance on the dwave system.
+ - *create_file*: Boolean value, if True, a new directory is created for each distribution.
+ - *seed*: seed value for numpy to generate random numbers.
+ - *QAOA*: Boolean value to specify  whether using QAOA for the running experiments.
+ - *dwave*: Boolean value to specify  whether using DWave for the running experiments.
+ - *exact*: Boolean value to specify  whether using Classical BILP solver for the running experiments.
+ - *classical_BILP*: Boolean value to specify to coonsideration of classically solving equivalent BILP problem for running the experiments.
+ - *folder*: subfolder inside root_folder to save the results
+
+
+
+## Issues
+
+For any issues or questions related to the code, open a new git issue or send a mail to XXXX

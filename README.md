@@ -1,5 +1,6 @@
 # BILP-Q: Quantum Coalition Structure Generation
-This repository contains the code to reproduce the results presented in the paper BILP-Q: Quantum Coalition Structure Generation, submitted in the 
+This repository contains the code to reproduce the results presented in the paper *BILP-Q: 
+Quantum Coalition Structure Generation*, published in the 
 [19th ACM International Conference on Computing Frontiers (CF'22)](https://www.computingfrontiers.org/2022/index.html).
 
 # Contents

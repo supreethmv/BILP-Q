@@ -124,4 +124,6 @@ the experiments:
 
 ## Issues
 
-For any issues or questions related to the code, open a new git issue or send a mail to XXXX
+For any issues or questions related to the code, open a new git issue or send a mail to
+[s8sumyso@stud.uni-saarland.de](s8sumyso@stud.uni-saarland.de) or 
+[antonio.macaluso@dfki.de](antonio.macaluso@dfki.de).

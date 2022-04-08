@@ -238,7 +238,7 @@ def atoi(text):
 
 ######################## DECODING
 
-#convert solution binary string to coalition structure and also output the coalition
+#convert solution binary string to coalition structure and also output_ the coalition
 def decode(solution,coalition_values):
   """
   Convert the solution binary string into a coalition sructure(a list of coalitions)

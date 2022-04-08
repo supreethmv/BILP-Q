@@ -9,7 +9,7 @@ def running_dwave(linear, quadratic, exact_solution, colnames,
     :params
     linear: dictionary of linear coefficient terms in the QUBO formulation of the CSG problem.
     quadratic: dictionary of quadratic coefficient terms in the QUBO formulation of the CSG problem.
-    exact_solution: This is the exact solution of the input problem instance for verifying the output from dwave system.
+    exact_solution: This is the exact solution of the input problem instance for verifying the output_ from dwave system.
     colnames: list of column headers for generating a report using a standard schema.
     
     :return
@@ -33,7 +33,7 @@ def running_dwave_exact(linear, quadratic, exact_solution, colnames,
     :params
     linear: dictionary of linear coefficient terms in the QUBO formulation of the CSG problem.
     quadratic: dictionary of quadratic coefficient terms in the QUBO formulation of the CSG problem.
-    exact_solution: This is the exact solution of the input problem instance for verifying the output from dwave system.
+    exact_solution: This is the exact solution of the input problem instance for verifying the output_ from dwave system.
     colnames: list of column headers for generating a report using a standard schema.
     
     :return
@@ -62,7 +62,7 @@ def running_QAOA(linear, quadratic, exact_solution, colnames,
     :params
     linear: dictionary of linear coefficient terms in the QUBO formulation of the CSG problem.
     quadratic: dictionary of quadratic coefficient terms in the QUBO formulation of the CSG problem.
-    exact_solution: This is the exact solution of the input problem instance for verifying the output from dwave system.
+    exact_solution: This is the exact solution of the input problem instance for verifying the output_ from dwave system.
     colnames: list of column headers for generating a report using a standard schema.
     params: input parameterization for qiskit's QAOA
     
@@ -215,7 +215,7 @@ def run_all(distributions, n_agents, root_folder, penalty=None, dwave_runs = 100
 if __name__=="__main__":
 
     # import shutil
-    # shutil.rmtree(r'output')
+    # shutil.rmtree(r'output_')
 
     seed = 12
     root = 'output'

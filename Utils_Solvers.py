@@ -312,13 +312,13 @@ def get_ordered_solution(dictionary):
 
 def results_from_QAOA(result):
     """
-    Fetch the details of the output from QAOA.
+    Fetch the details of the output_ from QAOA.
 
     :params
-    result: The output of QAOA.
+    result: The output_ of QAOA.
 
     :return
-    solution: a list of binary values corresponding to the solution provided by the output of QAOA.
+    solution: a list of binary values corresponding to the solution provided by the output_ of QAOA.
     fval: The function value (operator value) of the input hamiltonian corresponding to the solution.
     prob: Probability of the solution.
     rank: rank of the solution out of all possible binary arrays.
@@ -348,13 +348,13 @@ def results_from_QAOA(result):
 
 def results_from_dwave(sample_set, exact=False):
     """
-    Fetch the details of the output from D-Wave system (Quantum Annealing).
+    Fetch the details of the output_ from D-Wave system (Quantum Annealing).
 
     :params
     sample_set: Samples and any other data returned by dimod samplers.
 
     :return
-    solution: a list of binary values corresponding to the solution provided by the output of D-Wave device.
+    solution: a list of binary values corresponding to the solution provided by the output_ of D-Wave device.
     fval: The function value (operator value) of the input hamiltonian corresponding to the solution.
     prob: Probability of the solution.
     rank: rank of the solution out of all possible binary arrays.
@@ -398,10 +398,10 @@ def results_from_dwave(sample_set, exact=False):
 
 def ranking_results_QAOA(qaoa_result, exact_solution=None):
     """
-    Get the rank of the output from qaoa.
+    Get the rank of the output_ from qaoa.
 
     :params
-    qaoa_result: output from QAOA.
+    qaoa_result: output_ from QAOA.
     exact_solution: Ground truth solution of the input problem instance.
 
     :return
@@ -435,7 +435,7 @@ def QAOA_optimization(linear, quadratic, n_init=10, p_list=np.arange(1,10), info
     p_list: list if numbers specifying the number of interaction layers in the QAOA circuit.
 
     :return
-    final_qaoa_result: Soltuion string corresponding to the QAOA output.
+    final_qaoa_result: Soltuion string corresponding to the QAOA output_.
     optimal_p: Value of p that generated the correct solution.
     optimal_init: Value of the intial points corresponding to the correct solution.
     time: Time taken in seconds by QAOA to find the solution.

@@ -1,2 +1,0 @@
-distribution,n_agents,solution,p,fval,prob,rank,time,device,flag,time_bilp,penalty
-SVA_BETA_distribution,4,"[0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]",,-4203.873,0.018,2,146.8,dwave,False,,1000

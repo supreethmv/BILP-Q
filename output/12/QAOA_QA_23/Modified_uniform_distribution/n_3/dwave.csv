@@ -1,2 +1,0 @@
-distribution,n_agents,solution,p,fval,prob,rank,time,device,flag,time_bilp,penalty
-Modified_uniform_distribution,3,"[1.0, 1.0, 0.0, 1.0, 0.0, 0.0, 0.0]",,-330.817,0.176,2,106.24,dwave,True,0.6411075592041016,100

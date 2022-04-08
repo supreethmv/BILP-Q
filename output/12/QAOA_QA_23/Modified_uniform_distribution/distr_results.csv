@@ -1,7 +1,0 @@
-distribution,n_agents,solution,p,fval,prob,rank,time,device,flag,time_bilp,penalty
-Modified_uniform_distribution,2,"[0.0, 0.0, 1.0]",,-219.685,0.665,1,79.8,dwave,True,0.059604644775390625,100
-Modified_uniform_distribution,2,"[0.0, 0.0, 1.0]",,-219.685,1,1,0.0001728534698486328,exact dwave,True,0.059604644775390625,100
-Modified_uniform_distribution,2,[0. 0. 1.],1,-219.685,0.19238281249999997,1,0.028964996337890625,QAOA,True,0.059604644775390625,100
-Modified_uniform_distribution,3,"[1.0, 1.0, 0.0, 1.0, 0.0, 0.0, 0.0]",,-330.817,0.176,2,106.24,dwave,True,0.6411075592041016,100
-Modified_uniform_distribution,3,"[1.0, 1.0, 0.0, 1.0, 0.0, 0.0, 0.0]",,-330.817,1,1,0.0003027915954589844,exact dwave,True,0.6411075592041016,100
-Modified_uniform_distribution,3,[1. 1. 0. 1. 0. 0. 0.],10,-330.817,0.04882812500000001,1,2.3600335121154785,QAOA,True,0.6411075592041016,100

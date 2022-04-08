@@ -1,2 +1,0 @@
-distribution,n_agents,solution,p,fval,prob,rank,time,device,flag,time_bilp,penalty
-Modified_uniform_distribution,2,[0. 0. 1.],1,-219.685,0.19238281249999997,1,0.028964996337890625,QAOA,True,0.059604644775390625,100

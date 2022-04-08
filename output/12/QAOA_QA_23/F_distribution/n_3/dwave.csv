@@ -1,2 +1,0 @@
-distribution,n_agents,solution,p,fval,prob,rank,time,device,flag,time_bilp,penalty
-F_distribution,3,"[1.0, 1.0, 0.0, 1.0, 0.0, 0.0, 0.0]",,-427.362,0.394,1,81.76,dwave,True,0.5879402160644531,100

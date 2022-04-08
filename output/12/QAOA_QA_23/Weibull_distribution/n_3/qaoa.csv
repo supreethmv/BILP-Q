@@ -1,2 +1,0 @@
-distribution,n_agents,solution,p,fval,prob,rank,time,device,flag,time_bilp,penalty
-Weibull_distribution,3,[0. 0. 1. 1. 0. 0. 0.],6,-303.569,0.05859375000000001,2,1.4988234043121338,QAOA,True,0.6012916564941406,100

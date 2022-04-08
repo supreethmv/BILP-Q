@@ -1,2 +1,0 @@
-distribution,n_agents,solution,p,fval,prob,rank,time,device,flag,time_bilp,penalty
-Agent_based_uniform,2,[1. 1. 0.],1,-208.71200000000002,0.1630859375,1,0.03383803367614746,QAOA,True,0.062465667724609375,100

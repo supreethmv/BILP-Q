@@ -1,4 +1,0 @@
-distribution,n_agents,solution,p,fval,prob,rank,time,device,flag,time_bilp,penalty
-Weighted_random_with_chisquare,3,"[1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0]",,-314.63,0.148,2,119.04,dwave,True,0.614166259765625,100
-distribution,n_agents,solution,p,fval,prob,rank,time,device,flag,time_bilp,penalty
-Weighted_random_with_chisquare,3,"[1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0]",,-314.63,0.209,2,105.76,dwave,True,0.5285739898681641,100

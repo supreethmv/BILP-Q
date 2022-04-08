@@ -1,2 +1,0 @@
-distribution,n_agents,solution,p,fval,prob,rank,time,device,flag,time_bilp,penalty
-Weighted_random_with_chisquare,2,[0. 0. 1.],2,-210.23899999999998,0.2763671875,1,0.0547940731048584,QAOA,True,0.06794929504394531,100
